@@ -17,41 +17,39 @@ public class DateTimeService
    }
 
    //method returns date/time as a formatted String object
-   public String getDateAndTime()
+   public String[] getDateAndTime()
    {
 	 Date d = this.calendar.getTime();
-     return d.toString();	
-   }
-   
-   public String getTemp()
-   {
-       FileReader filereader = null;
-       BufferedReader bufferedreader = null;
-       try {
-           filereader = new FileReader("/sys/class/thermal/thermal_zone0/temp");
-           bufferedreader = new BufferedReader(filereader);
-           String strCurrentLine;
-           while ((strCurrentLine = bufferedreader.readLine()) != null) {
-             return (strCurrentLine.toString());
-           }
-         } 
-       catch (IOException e) 
-       {
-           e.printStackTrace();
-       } 
-       finally {
-           try {
-             if (bufferedreader != null)
-               bufferedreader.close();
-             if (filereader != null)
-               filereader.close();
-           } 
-           catch (IOException e) 
-           {
-             e.printStackTrace();
-           }
+	 String[] tab=new String[2];
+	 FileReader filereader = null;
+     BufferedReader bufferedreader = null;
+     try {
+         filereader = new FileReader("/sys/class/thermal/thermal_zone0/temp");
+         bufferedreader = new BufferedReader(filereader);
+         String strCurrentLine;
+         while ((strCurrentLine = bufferedreader.readLine()) != null) {
+           tab[0]=strCurrentLine;
+        		   System.out.println(strCurrentLine);
          }
-       return "0";
-   }
-   
+       } 
+     catch (IOException e) 
+     {
+         e.printStackTrace();
+     } 
+     finally {
+         try {
+           if (bufferedreader != null)
+             bufferedreader.close();
+           if (filereader != null)
+             filereader.close();
+         } 
+         catch (IOException e) 
+         {
+           e.printStackTrace();
+         }
+       }
+
+     tab[1]=d.toString();
+     return tab ;	
+   }		
 }
