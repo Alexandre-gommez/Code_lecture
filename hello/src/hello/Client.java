@@ -22,10 +22,8 @@ public class Client {
     		this.socket = new Socket(serverIP,portNumber);
     		this.os = new ObjectOutputStream(this.socket.getOutputStream());
     		this.is = new ObjectInputStream(this.socket.getInputStream());
-    		System.out.println("00. -> Connected to Server:" + this.socket.getInetAddress() 
-    				+ " on port: " + this.socket.getPort());
-    		System.out.println("    -> from local address: " + this.socket.getLocalAddress() 
-    				+ " and port: " + this.socket.getLocalPort());
+    		//System.out.println("00. -> Connected to Server:" + this.socket.getInetAddress() + " on port: " + this.socket.getPort());
+    		//System.out.println("    -> from local address: " + this.socket.getLocalAddress() 	+ " and port: " + this.socket.getLocalPort());
     	} 
         catch (Exception e) {
         	System.out.println("XX. Failed to Connect to the Server at port: " + portNumber);
@@ -35,28 +33,27 @@ public class Client {
 		return true;
     }
     
-    private void getDate() {
+    public String[] getDate() {
+		String[] theDateAndTime=new String[2];
     	String theDateCommand = "GetDate";
-    	String[] theDateAndTime=new String[2];
-    	System.out.println("01. -> Sending Command (" + theDateCommand + ") to the server...");
+    	//System.out.println("01. -> Sending Command (" + theDateCommand + ") to the server...");
     	this.send(theDateCommand);
     	try{
     		theDateAndTime = (String[]) receive();
-    		System.out.println("05. <- The Server responded with: ");
-    		System.out.println("    <- " + theDateAndTime[0]);
-    		System.out.println("05. <- The Server responded with: ");
-    		System.out.println("    <- " + theDateAndTime[1]);
+    		//System.out.println("    <- " + theDateAndTime[0]);
+    		//System.out.println("    <- " + theDateAndTime[1]);
     	}
     	catch (Exception e){
     		System.out.println("XX. There was an invalid object sent back from the server");
     	}
-    	System.out.println("06. -- Disconnected from Server.");
+    	//System.out.println("06. -- Disconnected from Server.");
+    	return theDateAndTime;
     }
 	
     // method to send a generic object.
     private void send(Object o) {
 		try {
-		    System.out.println("02. -> Sending an object...");
+		   // System.out.println("02. -> Sending an object...");
 		    os.writeObject(o);
 		    os.flush();
 		} 
@@ -70,9 +67,9 @@ public class Client {
     {
 		Object o = null;
 		try {
-			System.out.println("03. -- About to receive an object...");
+			//System.out.println("03. -- About to receive an object...");
 		    o = is.readObject();
-		    System.out.println("04. <- Object received...");
+		    //System.out.println("04. <- Object received...");
 		} 
 	    catch (Exception e) {
 		    System.out.println("XX. Exception Occurred on Receiving:" + e.toString());
@@ -80,22 +77,4 @@ public class Client {
 		return o;
     }
 
-    public static void main(String args[]) 
-    {
-    	System.out.println("**. Java Client Application - EE402 OOP Module, DCU");
-    	for(int i=0;i<100;i++)
-    	{
-    	if(args.length==1){
-    		Client theApp = new Client(args[0]);
-		    theApp.getDate();
-		}
-    	else
-    	{
-    		System.out.println("Error: you must provide the address of the server");
-    		System.out.println("Usage is:  java Client x.x.x.x  (e.g. java Client 192.168.7.2)");
-    		System.out.println("      or:  java Client hostname (e.g. java Client localhost)");
-    	} 
-    	}
-    	System.out.println("**. End of Application.");
-    }
 }
