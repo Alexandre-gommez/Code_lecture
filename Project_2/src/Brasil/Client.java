@@ -11,7 +11,7 @@ import java.io.*;
 
 public class Client {
 	
-	private static int portNumber = 5001;
+	private static int portNumber = 5050;
     private Socket socket = null;
     private ObjectOutputStream os = null;
     private ObjectInputStream is = null;
@@ -25,7 +25,7 @@ public class Client {
 
     private boolean connectToServer(String serverIP) {
     	try { // open a new socket to the server 
-    		this.socket = new Socket("raspberrypi.local",portNumber);
+    		this.socket = new Socket(serverIP,portNumber);
     		this.os = new ObjectOutputStream(this.socket.getOutputStream());
     		this.is = new ObjectInputStream(this.socket.getInputStream());
     		System.out.println("00. -> Connected to Server:" + this.socket.getInetAddress() 
@@ -41,22 +41,19 @@ public class Client {
 		return true;
     }
 
-    public String[] getDate() {
-    	String [] theDateAndTime = new String [2];
-    	String theDateCommand = "GetDate";
+    public void getDate() {
+    	String theDateCommand = "GetDate", theDateAndTime;
     	System.out.println("01. -> Sending Command (" + theDateCommand + ") to the server...");
     	this.send(theDateCommand);
     	try{
-    		theDateAndTime = (String[]) receive();
+    		theDateAndTime = (String) receive();
     		System.out.println("05. <- The Server responded with: ");
-    		System.out.println("    <- " + theDateAndTime[0]);
-    		System.out.println("2eme ligne tab"+theDateAndTime[1]);
+    		System.out.println("    <- " + theDateAndTime);
     	}
     	catch (Exception e){
     		System.out.println("XX. There was an invalid object sent back from the server");
     	}
     	System.out.println("06. -- Disconnected from Server.");
-    	return theDateAndTime;
     }
 	
     // method to send a generic object.
