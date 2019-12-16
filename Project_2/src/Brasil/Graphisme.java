@@ -18,9 +18,12 @@ public class Graphisme extends JFrame {
 	public void fenetre() {
 		// https://openclassrooms.com/fr/courses/26832-apprenez-a-programmer-en-java/23108-creez-votre-premiere-fenetre
 		this.setTitle("Assignment 2 - Noemie Pasquier"); // title of the window
-		this.setSize(800, 800); // size of the window
+		this.setSize(800, 650); // size of the window
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // we close the window when we click on the red cross
 		this.setLocationRelativeTo(null); // put the object to the center
+		//TITLE 
+		//JLabel title = new JLabel("Graph: Temperature of the CPU of the raspberry"); //Title of thegraph 
+		//this.add(title, BorderLayout.NORTH); //The title is on the top of thewindow
 		draw=new Draw();
 		this.setContentPane(draw);
 
@@ -32,10 +35,6 @@ public class Graphisme extends JFrame {
 		 * add the button to the panel and the end of the window pan.add(panelButtons,
 		 * BorderLayout.SOUTH); //button.addActionListener(?);
 		 * 
-		 * //TITLE JLabel title = new
-		 * JLabel("Graph: Temperature of the CPU of the raspberry"); //Title of the
-		 * graph pan.add(title, BorderLayout.NORTH); //The title is on the top of the
-		 * window
 		 * 
 		 * //TEXT AREA - FREQUENCY //JTextArea frequency = new JTextArea(1,1);
 		 * //pan.add(frequency,BorderLayout.CENTER);
@@ -58,7 +57,6 @@ public class Graphisme extends JFrame {
 			if (source == button) {
 				// Daltoniens
 				pan.getRootPane().setBackground(Color.black);
-
 				JLabel title = new JLabel("Graph: Temperature of the CPU of the raspberry"); // Title of the graph
 				pan.add(title, BorderLayout.CENTER); // The title is on the top of the window
 			} else if (source == button2) {

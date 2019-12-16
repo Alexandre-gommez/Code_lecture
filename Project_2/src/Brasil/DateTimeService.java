@@ -1,16 +1,15 @@
 package Brasil;
 
+import java.io.*;
+
 /* The Date Time Service Class - Written by Derek Molloy for the EE402 Module
  * See: ee402.eeng.dcu.ie
  
-
-
 import java.awt.Color;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-
 public class DateTimeService
 {
    private Calendar calendar;
@@ -19,7 +18,6 @@ public class DateTimeService
    public float Tmin=0;	//minimum temperature
    public float Tmax=0; 	//maximum temperature
    
-
    //constructor creates the Calendar object, could use the constructor:
    //   Calendar(TimeZone zone, Locale aLocale) to explicitly specify 
    //	  the time zone and locale
@@ -27,7 +25,6 @@ public class DateTimeService
    {
 	 this.calendar = Calendar.getInstance();
    }
-
    //method returns date/time as a formatted String object
    ///public String getDateAndTime()
    public String[] getDateAndTime()
@@ -105,7 +102,6 @@ public class DateTimeService
   	
      return tab;
    }
-
 	
 }*/
 
@@ -128,8 +124,54 @@ public class DateTimeService
    public String[] getDateAndTime()
    {
 	 Date d = this.calendar.getTime();
-	 String[]tab=new String[2];
-	 tab[0]=d.toString();
-     return tab;	
+	 ///TIME RECOVERY
+	 String time;
+     String hour;
+     String minutes;
+     String seconds;
+        	
+     String time_rasp= d.toString();
+	 //We make a table of string to be able to send the cLient the corresponding time and temperature.
+	 String [ ] chart = new String[2];
+	 
+	 hour=String.valueOf(time_rasp.charAt(11))+String.valueOf(time_rasp.charAt(12));
+ 	 //Convert char to string : https://www.javatpoint.com/java-char-to-string
+ 	 //Convert string to char : https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/String/charAt
+ 	 minutes=String.valueOf(time_rasp.charAt(14))+String.valueOf(time_rasp.charAt(15));
+ 	 seconds=String.valueOf(time_rasp.charAt(17))+String.valueOf(time_rasp.charAt(18));
+ 	 time=hour+minutes+seconds;
+ 	 chart[0]=time;
+ 	 
+     FileReader filereader = null;
+     BufferedReader bufferedreader = null;
+     try {
+         filereader = new FileReader("/sys/class/thermal/thermal_zone0/temp");
+         bufferedreader = new BufferedReader(filereader);
+         String strCurrentLine=null;
+         while ((strCurrentLine = bufferedreader.readLine()) != null) {
+        	chart[1]=strCurrentLine;	//The second line of the table collects the temperature.
+        	System.out.println(strCurrentLine);
+         }
+     }
+     
+     catch (IOException e) 
+     {
+         e.printStackTrace();
+     } 
+     
+     finally {
+         try {
+           if (bufferedreader != null)
+             bufferedreader.close();
+           if (filereader != null)
+             filereader.close();
+         } 
+         catch (IOException e) 
+         {
+           e.printStackTrace();
+         }
+       }
+ 	 
+     return chart;	
    }	
 }

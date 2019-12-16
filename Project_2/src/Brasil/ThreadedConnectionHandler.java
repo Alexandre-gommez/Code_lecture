@@ -10,7 +10,7 @@ import java.io.*;
 
 public class ThreadedConnectionHandler extends Thread
 {
-    private Socket clientSocket = null;				// Client socket object
+    private Socket clientSocket = null ;				// Client socket object
     private ObjectInputStream is = null;			// Input stream
     private ObjectOutputStream os = null;			// Output stream
     private DateTimeService theDateService;
